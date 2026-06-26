@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { useReveal } from '@/hooks/useReveal';
 
 const testimonials = [
   {
@@ -28,13 +31,15 @@ const testimonials = [
 ];
 
 export const Testimonials = () => {
+  const revealRef = useReveal() as React.RefObject<HTMLElement>;
+
   return (
-    <section id="testimonials" className="py-24 bg-oceanic relative overflow-hidden" aria-label="Customer Testimonials">
+    <section id="testimonials" className="py-24 bg-oceanic relative overflow-hidden" aria-label="Customer Testimonials" ref={revealRef}>
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-nocturnal/30 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-nocturnal/30 rounded-full blur-[100px] pointer-events-none transition-transform duration-[20s] ease-in-out origin-center animate-[rotate-slow_30s_linear_infinite]"></div>
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in-up">
+        <div className="text-center max-w-3xl mx-auto mb-16 reveal fade-up">
           <h2 className="text-3xl md:text-5xl font-mono font-bold text-powder mb-6">
             Loved by engineering teams
           </h2>
@@ -47,22 +52,23 @@ export const Testimonials = () => {
           {testimonials.map((testimonial, i) => (
             <div 
               key={i} 
-              className="glass-card rounded-2xl p-8 border border-mint/10 hover:border-forsythia/30 hover:shadow-[0_0_20px_rgba(255,200,1,0.05)] transition-all duration-300 flex flex-col group"
+              className="reveal fade-up glass-card rounded-2xl p-8 border border-mint/10 hover:border-forsythia/40 hover:shadow-[0_10px_30px_rgba(255,200,1,0.1)] hover:-translate-y-2 hover:rotate-1 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col group origin-bottom"
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, j) => (
-                  <svg key={j} className="w-5 h-5 text-forsythia" fill="currentColor" viewBox="0 0 20 20">
+                  <svg key={j} className="w-5 h-5 text-forsythia/50 group-hover:text-forsythia transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20" style={{ transitionDelay: `${j * 50}ms` }}>
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 ))}
               </div>
               
-              <p className="text-mint text-lg font-sans leading-relaxed mb-8 flex-1 italic">
+              <p className="text-mint text-lg font-sans leading-relaxed mb-8 flex-1 italic group-hover:text-powder transition-colors duration-300">
                 "{testimonial.quote}"
               </p>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-nocturnal border border-mint/20 flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-forsythia group-hover:to-saffron group-hover:text-oceanic group-hover:border-transparent transition-all">
+                <div className="w-12 h-12 rounded-full bg-nocturnal border border-mint/20 flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-forsythia group-hover:to-saffron group-hover:text-oceanic group-hover:border-transparent group-hover:shadow-[0_0_15px_rgba(255,200,1,0.5)] transition-all duration-300 group-hover:scale-110">
                   {testimonial.avatar}
                 </div>
                 <div>

@@ -8,8 +8,8 @@ import {
   Cog8ToothIcon, 
   Cube16SolidIcon 
 } from '@/components/ui/Icons';
+import { useReveal } from '@/hooks/useReveal';
 
-// Features Context
 const FeaturesContext = createContext<{
   activeIndex: number;
   setActiveIndex: (index: number) => void;
@@ -25,35 +25,35 @@ const features = [
     id: 'ai-agents',
     title: 'AI Agents',
     description: 'Deploy autonomous agents that reason, plan, and execute complex workflows without human intervention.',
-    icon: <Cube16SolidIcon className="w-6 h-6 text-forsythia" />,
+    icon: <Cube16SolidIcon className="w-6 h-6 text-forsythia group-hover:animate-pulse-glow" />,
     preview: 'Agent analyzing customer data...',
   },
   {
     id: 'workflow-builder',
     title: 'Workflow Builder',
     description: 'Visual drag-and-drop interface to connect your entire tech stack in minutes.',
-    icon: <ArrowPathIcon className="w-6 h-6 text-saffron" />,
+    icon: <ArrowPathIcon className="w-6 h-6 text-saffron group-hover:rotate-180 transition-transform duration-700" />,
     preview: 'Connecting Slack to Salesforce...',
   },
   {
     id: 'nlp-automation',
     title: 'Natural Language Automation',
     description: 'Simply type what you want to automate, and our engine builds the logic for you.',
-    icon: <Cog8ToothIcon className="w-6 h-6 text-mint" />,
+    icon: <Cog8ToothIcon className="w-6 h-6 text-mint group-hover:animate-[rotate-slow_10s_linear_infinite]" />,
     preview: '"When a new lead arrives, send a welcome email."',
   },
   {
     id: 'enterprise-security',
     title: 'Enterprise Security',
     description: 'Bank-grade encryption, SOC2 compliance, and granular role-based access control.',
-    icon: <ChartPieIcon className="w-6 h-6 text-powder" />,
+    icon: <ChartPieIcon className="w-6 h-6 text-powder group-hover:scale-110 transition-transform" />,
     preview: 'Security dashboard preview...',
   },
   {
     id: 'analytics',
     title: 'Analytics & Insights',
     description: 'Real-time monitoring of all automated processes with predictive failure alerts.',
-    icon: <ArrowTrendingUpIcon className="w-6 h-6 text-forsythia" />,
+    icon: <ArrowTrendingUpIcon className="w-6 h-6 text-forsythia group-hover:-translate-y-1 transition-transform" />,
     preview: 'Performance metrics chart...',
   }
 ];
@@ -61,6 +61,7 @@ const features = [
 export const Features = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const revealRef = useReveal() as React.RefObject<HTMLDivElement>;
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,9 +75,9 @@ export const Features = () => {
 
   return (
     <FeaturesContext.Provider value={{ activeIndex, setActiveIndex, isMobile }}>
-      <section id="features" className="py-24 bg-oceanic" aria-label="Platform Features">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in-up">
+      <section id="features" className="py-24 bg-oceanic relative" aria-label="Platform Features">
+        <div className="container mx-auto px-6 md:px-12" ref={revealRef}>
+          <div className="text-center max-w-3xl mx-auto mb-16 reveal fade-up">
             <h2 className="text-3xl md:text-5xl font-mono font-bold text-powder mb-6">
               Intelligence at every layer
             </h2>
@@ -85,7 +86,9 @@ export const Features = () => {
             </p>
           </div>
 
-          {isMobile ? <MobileAccordion /> : <DesktopBento />}
+          <div className="reveal fade-up" style={{ transitionDelay: '100ms' }}>
+            {isMobile ? <MobileAccordion /> : <DesktopBento />}
+          </div>
         </div>
       </section>
     </FeaturesContext.Provider>
@@ -102,7 +105,9 @@ const MobileAccordion = () => {
         return (
           <div 
             key={feature.id}
-            className={`glass-card rounded-2xl overflow-hidden transition-all duration-300 ${isActive ? 'border-forsythia/40 shadow-[0_0_15px_rgba(255,200,1,0.1)]' : 'border-mint/10'}`}
+            className={`glass-card rounded-2xl overflow-hidden transition-all duration-300 group ${
+              isActive ? 'border-forsythia/40 shadow-[0_0_20px_rgba(255,200,1,0.15)] -translate-y-1' : 'border-mint/10 hover:border-mint/30 hover:-translate-y-0.5'
+            }`}
           >
             <button
               className="w-full text-left px-6 py-5 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forsythia focus-visible:ring-inset"
@@ -110,24 +115,27 @@ const MobileAccordion = () => {
               aria-expanded={isActive}
             >
               <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-lg ${isActive ? 'bg-nocturnal' : 'bg-oceanic'}`}>
+                <div className={`p-2 rounded-lg transition-colors duration-300 ${isActive ? 'bg-nocturnal' : 'bg-oceanic group-hover:bg-nocturnal/50'}`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-bold text-powder">{feature.title}</h3>
+                <h3 className="text-lg font-bold text-powder group-hover:text-white transition-colors">{feature.title}</h3>
               </div>
-              <div className={`w-6 h-6 flex items-center justify-center transition-transform duration-300 ${isActive ? 'rotate-180' : ''}`}>
-                <svg className="w-5 h-5 text-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className={`w-6 h-6 flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isActive ? 'rotate-180' : ''}`}>
+                <svg className={`w-5 h-5 transition-colors ${isActive ? 'text-forsythia' : 'text-mint'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </button>
             
             <div 
-              className={`px-6 transition-all duration-300 ease-in-out ${isActive ? 'max-h-96 pb-6 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}
+              className={`px-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] origin-top ${
+                isActive ? 'max-h-96 pb-6 opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95 overflow-hidden'
+              }`}
             >
               <p className="text-mint/80 mb-4">{feature.description}</p>
-              <div className="w-full h-32 rounded-xl bg-nocturnal border border-mint/10 flex items-center justify-center p-4">
-                <span className="text-xs font-mono text-mint/60">{feature.preview}</span>
+              <div className="w-full h-32 rounded-xl bg-nocturnal border border-mint/10 flex items-center justify-center p-4 relative overflow-hidden group-hover:border-forsythia/20 transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
+                <span className="text-xs font-mono text-mint/60 relative z-10">{feature.preview}</span>
               </div>
             </div>
           </div>
@@ -149,10 +157,10 @@ const DesktopBento = () => {
           return (
             <button
               key={feature.id}
-              className={`text-left p-5 rounded-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forsythia ${
+              className={`text-left p-5 rounded-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forsythia group ${
                 isActive 
-                  ? 'glass-card border-forsythia/40 shadow-[0_0_15px_rgba(255,200,1,0.1)] translate-x-2' 
-                  : 'bg-nocturnal/20 border border-mint/5 hover:bg-nocturnal/50 hover:border-mint/20'
+                  ? 'glass-card border-forsythia/50 shadow-[0_5px_20px_rgba(255,200,1,0.15)] translate-x-2' 
+                  : 'bg-nocturnal/20 border border-mint/5 hover:bg-nocturnal/60 hover:border-mint/30 hover:translate-x-1 hover:shadow-lg'
               }`}
               onMouseEnter={() => setActiveIndex(index)}
               onClick={() => setActiveIndex(index)}
@@ -160,14 +168,14 @@ const DesktopBento = () => {
               role="tab"
             >
               <div className="flex items-center gap-4 mb-2">
-                <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-nocturnal' : 'bg-transparent'}`}>
+                <div className={`p-2 rounded-lg transition-colors duration-300 ${isActive ? 'bg-nocturnal shadow-inner' : 'bg-transparent group-hover:bg-nocturnal/50'}`}>
                   {feature.icon}
                 </div>
-                <h3 className={`text-lg font-bold transition-colors ${isActive ? 'text-forsythia' : 'text-powder'}`}>
+                <h3 className={`text-lg font-bold transition-colors duration-300 ${isActive ? 'text-forsythia' : 'text-powder group-hover:text-white'}`}>
                   {feature.title}
                 </h3>
               </div>
-              <p className={`text-sm transition-opacity duration-300 ${isActive ? 'text-mint opacity-100' : 'text-mint/60 opacity-0 h-0 overflow-hidden'}`}>
+              <p className={`text-sm transition-all duration-300 ${isActive ? 'text-mint opacity-100 translate-y-0' : 'text-mint/60 opacity-0 -translate-y-2 h-0 overflow-hidden'}`}>
                 {feature.description}
               </p>
             </button>
@@ -176,35 +184,38 @@ const DesktopBento = () => {
       </div>
 
       {/* Main Preview Area (Right Column) */}
-      <div className="col-span-8 row-span-2 glass-card rounded-3xl border border-mint/20 relative overflow-hidden flex flex-col group">
-        <div className="absolute inset-0 bg-gradient-to-br from-forsythia/5 to-transparent"></div>
+      <div className="col-span-8 row-span-2 glass-card rounded-3xl border border-mint/20 relative overflow-hidden flex flex-col group hover:border-forsythia/30 hover:shadow-[0_10px_40px_rgba(255,200,1,0.1)] transition-all duration-500">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(255,200,1,0.1)_0%,transparent_60%)] animate-gradient-flow opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
         
         {/* Top Bar */}
-        <div className="h-12 border-b border-mint/10 flex items-center px-6 gap-2 bg-oceanic/50">
-          <div className="w-3 h-3 rounded-full bg-mint/20"></div>
-          <div className="w-3 h-3 rounded-full bg-mint/20"></div>
-          <div className="w-3 h-3 rounded-full bg-mint/20"></div>
-          <div className="ml-4 px-3 py-1 rounded-md bg-nocturnal/50 text-xs font-mono text-mint/60 flex-1">
-            platform://feature/{features[activeIndex].id}
+        <div className="h-12 border-b border-mint/10 flex items-center px-6 gap-2 bg-oceanic/50 relative z-10">
+          <div className="w-3 h-3 rounded-full bg-mint/20 group-hover:bg-[#FF5F56] transition-colors duration-300"></div>
+          <div className="w-3 h-3 rounded-full bg-mint/20 group-hover:bg-[#FFBD2E] transition-colors duration-300 delay-75"></div>
+          <div className="w-3 h-3 rounded-full bg-mint/20 group-hover:bg-[#27C93F] transition-colors duration-300 delay-150"></div>
+          <div className="ml-4 px-3 py-1 rounded-md bg-nocturnal/50 text-xs font-mono text-mint/60 flex-1 flex items-center overflow-hidden">
+            <span className="truncate">platform://feature/{features[activeIndex].id}</span>
+            <span className="w-1.5 h-3 ml-1 bg-mint/40 animate-pulse"></span>
           </div>
         </div>
 
         {/* Dynamic Content Area */}
-        <div className="flex-1 p-8 flex items-center justify-center relative">
+        <div className="flex-1 p-8 flex items-center justify-center relative z-10">
           {features.map((feature, index) => (
             <div 
               key={feature.id}
-              className={`absolute inset-0 p-8 flex flex-col items-center justify-center transition-all duration-500 ${
+              className={`absolute inset-0 p-8 flex flex-col items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                 activeIndex === index 
-                  ? 'opacity-100 scale-100 translate-y-0' 
-                  : 'opacity-0 scale-95 translate-y-4 pointer-events-none'
+                  ? 'opacity-100 scale-100 translate-y-0 blur-none' 
+                  : 'opacity-0 scale-95 translate-y-8 blur-sm pointer-events-none'
               }`}
             >
-              <div className="w-full max-w-md aspect-video rounded-xl bg-oceanic border border-mint/10 flex items-center justify-center shadow-2xl relative overflow-hidden group-hover:border-forsythia/30 transition-colors duration-500">
+              <div className="w-full max-w-md aspect-video rounded-xl bg-oceanic border border-mint/10 flex items-center justify-center shadow-2xl relative overflow-hidden group-hover:border-forsythia/40 transition-colors duration-500">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,200,1,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" style={{ animationDuration: '3s' }}></div>
+                
                 {/* Placeholder for the complex visual preview */}
                 <div className="text-center relative z-10">
-                  <div className="inline-block p-4 rounded-2xl bg-nocturnal/80 border border-mint/20 mb-4 animate-float">
+                  <div className="inline-flex p-4 rounded-2xl bg-nocturnal border border-mint/20 mb-4 animate-float shadow-lg group-hover:shadow-[0_0_20px_rgba(255,200,1,0.2)] transition-shadow">
                     {feature.icon}
                   </div>
                   <h4 className="text-xl font-mono text-powder mb-2">{feature.title}</h4>

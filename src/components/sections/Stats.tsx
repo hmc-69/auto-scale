@@ -1,92 +1,88 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useReveal } from '@/hooks/useReveal';
 
-const AnimatedNumber = ({ 
-  value, 
-  duration = 2000, 
-  suffix = '', 
-  isFloat = false 
-}: { 
-  value: number; 
-  duration?: number; 
-  suffix?: string;
-  isFloat?: boolean;
-}) => {
-  const [ref, isIntersecting] = useIntersectionObserver<HTMLSpanElement>({ threshold: 0.1 });
-  const [count, setCount] = useState(0);
+// Custom hook to animate numbers
+const useCountUp = (end: number, duration: number = 2000, startAnimating: boolean) => {
+  const [count, setCount] = React.useState(0);
 
-  useEffect(() => {
-    if (!isIntersecting) return;
+  React.useEffect(() => {
+    if (!startAnimating) return;
 
     let startTime: number | null = null;
-    let animationFrameId: number;
+    let animationFrame: number;
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = timestamp - startTime;
+    const easeOutExpo = (t: number): number => {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    };
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
       
-      // Easing function (easeOutExpo)
-      const easeOut = progress === duration ? 1 : 1 - Math.pow(2, -10 * progress / duration);
-      const current = Math.min(value * easeOut, value);
+      const currentCount = end * easeOutExpo(progress);
+      setCount(currentCount);
 
-      setCount(current);
-
-      if (progress < duration) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        setCount(value);
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
       }
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    animationFrame = requestAnimationFrame(animate);
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [isIntersecting, value, duration]);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration, startAnimating]);
 
-  const displayValue = isFloat 
-    ? count.toFixed(2) 
-    : count >= 10 ? Math.floor(count) : count.toFixed(1);
+  return count;
+};
+
+const AnimatedNumber = ({ value, suffix = '', decimal = false }: { value: number, suffix?: string, decimal?: boolean }) => {
+  const [ref, isIntersecting] = useIntersectionObserver<HTMLDivElement>({ threshold: 0.5, triggerOnce: true });
+  const count = useCountUp(value, 2500, isIntersecting);
+
+  const displayValue = decimal 
+    ? count.toFixed(2)
+    : Math.round(count).toString();
 
   return (
-    <span ref={ref} className="tabular-nums">
+    <div ref={ref} className="text-4xl md:text-6xl font-mono font-bold text-forsythia mb-2 drop-shadow-[0_0_15px_rgba(255,200,1,0.3)]">
       {displayValue}{suffix}
-    </span>
+    </div>
   );
 };
 
 export const Stats = () => {
-  const stats = [
-    { label: 'Uptime SLA', value: 99.99, suffix: '%', isFloat: true },
-    { label: 'Automations Run', value: 10, suffix: 'M+', isFloat: false },
-    { label: 'Integrations', value: 150, suffix: '+', isFloat: false },
-    { label: 'User Rating', value: 4.8, suffix: '★', isFloat: true },
-  ];
+  const revealRef = useReveal() as React.RefObject<HTMLElement>;
 
   return (
-    <section className="py-20 border-y border-mint/10 bg-nocturnal/20 relative" aria-label="Platform Statistics">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[100px] bg-forsythia/10 blur-[100px] pointer-events-none"></div>
+    <section className="py-20 bg-oceanic border-y border-mint/10 relative overflow-hidden" aria-label="Platform Statistics" ref={revealRef}>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,200,1,0.03)_0%,transparent_50%)]"></div>
       
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 divide-x divide-mint/10">
-          {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center justify-center text-center pl-0 first:pl-0 sm:pl-8">
-              <h3 className="text-4xl md:text-5xl font-mono font-bold text-gradient-accent mb-2">
-                <AnimatedNumber 
-                  value={stat.value} 
-                  suffix={stat.suffix} 
-                  isFloat={stat.isFloat} 
-                />
-              </h3>
-              <p className="text-sm font-sans font-medium text-mint/80 uppercase tracking-widest">
-                {stat.label}
-              </p>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          
+          <div className="flex flex-col items-center text-center reveal fade-up group" style={{ transitionDelay: '0ms' }}>
+            <AnimatedNumber value={99.99} suffix="%" decimal />
+            <p className="text-sm font-sans text-mint/80 uppercase tracking-widest font-semibold group-hover:text-powder transition-colors">Uptime SLA</p>
+          </div>
+          
+          <div className="flex flex-col items-center text-center reveal fade-up group" style={{ transitionDelay: '100ms' }}>
+            <AnimatedNumber value={500} suffix="M+" />
+            <p className="text-sm font-sans text-mint/80 uppercase tracking-widest font-semibold group-hover:text-powder transition-colors">Events Processed</p>
+          </div>
+          
+          <div className="flex flex-col items-center text-center reveal fade-up group" style={{ transitionDelay: '200ms' }}>
+            <AnimatedNumber value={120} suffix="ms" />
+            <p className="text-sm font-sans text-mint/80 uppercase tracking-widest font-semibold group-hover:text-powder transition-colors">Avg Latency</p>
+          </div>
+          
+          <div className="flex flex-col items-center text-center reveal fade-up group" style={{ transitionDelay: '300ms' }}>
+            <AnimatedNumber value={4} suffix="k+" />
+            <p className="text-sm font-sans text-mint/80 uppercase tracking-widest font-semibold group-hover:text-powder transition-colors">Active Teams</p>
+          </div>
+
         </div>
       </div>
     </section>
