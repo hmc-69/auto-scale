@@ -125,8 +125,8 @@ export const Hero = () => {
 
             {/* Nodes */}
             {/* Center Node (AI Agent) */}
-            <div className="absolute z-10 animate-pulse-glow-intense" style={{ top: '300px', left: '300px', transform: 'translate(-50%, -50%)' }}>
-              <div className="glass-card w-28 h-28 rounded-3xl flex flex-col items-center justify-center gap-2 border-forsythia/50 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
+            <div className="absolute z-10" style={{ top: '300px', left: '300px', transform: 'translate(-50%, -50%)' }}>
+              <div className="animate-pulse-glow-intense glass-card w-28 h-28 rounded-3xl flex flex-col items-center justify-center gap-2 border-forsythia/50 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-forsythia/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="absolute inset-0 rounded-3xl border border-forsythia/0 group-hover:border-forsythia/50 animate-[pulse-glow_2s_infinite]"></div>
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-forsythia to-saffron flex items-center justify-center shadow-[0_0_20px_rgba(255,200,1,0.8)] text-oceanic font-black text-2xl relative">
@@ -138,8 +138,8 @@ export const Hero = () => {
             </div>
 
             {/* Top Left Node (Slack) */}
-            <div className="absolute z-10 animate-float-medium" style={{ top: '150px', left: '120px', transform: 'translate(-50%, -50%)', animationDelay: '0s' }}>
-              <div className="glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1">
+            <div className="absolute z-10" style={{ top: '150px', left: '120px', transform: 'translate(-50%, -50%)' }}>
+              <div className="animate-float-medium glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1" style={{ animationDelay: '0s' }}>
                 <div className="w-8 h-8 rounded-lg bg-nocturnal flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-mint/20 group-hover:to-transparent transition-colors">
                   Sl
                 </div>
@@ -151,8 +151,8 @@ export const Hero = () => {
             </div>
 
             {/* Top Right Node (CRM) */}
-            <div className="absolute z-10 animate-float-slow" style={{ top: '150px', left: '480px', transform: 'translate(-50%, -50%)', animationDelay: '1s' }}>
-              <div className="glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1">
+            <div className="absolute z-10" style={{ top: '150px', left: '480px', transform: 'translate(-50%, -50%)' }}>
+              <div className="animate-float-slow glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1" style={{ animationDelay: '1s' }}>
                 <div className="w-8 h-8 rounded-lg bg-nocturnal flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-mint/20 group-hover:to-transparent transition-colors">
                   CR
                 </div>
@@ -164,8 +164,8 @@ export const Hero = () => {
             </div>
 
             {/* Bottom Left Node (Database) */}
-            <div className="absolute z-10 animate-float-medium" style={{ top: '450px', left: '120px', transform: 'translate(-50%, -50%)', animationDelay: '2s' }}>
-              <div className="glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1">
+            <div className="absolute z-10" style={{ top: '450px', left: '120px', transform: 'translate(-50%, -50%)' }}>
+              <div className="animate-float-medium glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1" style={{ animationDelay: '2s' }}>
                 <div className="w-8 h-8 rounded-lg bg-nocturnal flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-mint/20 group-hover:to-transparent transition-colors">
                   DB
                 </div>
@@ -177,8 +177,8 @@ export const Hero = () => {
             </div>
 
             {/* Bottom Right Node (Email) */}
-            <div className="absolute z-10 animate-float-slow" style={{ top: '450px', left: '480px', transform: 'translate(-50%, -50%)', animationDelay: '0.5s' }}>
-              <div className="glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1">
+            <div className="absolute z-10" style={{ top: '450px', left: '480px', transform: 'translate(-50%, -50%)' }}>
+              <div className="animate-float-slow glass-card px-4 py-3 rounded-xl flex items-center gap-3 border-mint/20 hover:border-mint/60 hover:shadow-[0_0_15px_rgba(217,232,226,0.2)] transition-all cursor-default group hover:-translate-y-1" style={{ animationDelay: '0.5s' }}>
                 <div className="w-8 h-8 rounded-lg bg-nocturnal flex items-center justify-center text-powder font-bold text-sm group-hover:bg-gradient-to-br group-hover:from-mint/20 group-hover:to-transparent transition-colors">
                   Em
                 </div>
