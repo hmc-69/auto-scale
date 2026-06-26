@@ -113,12 +113,7 @@ export const Hero = () => {
                   </feMerge>
                 </filter>
               </defs>
-              <g stroke="url(#lineGrad)" strokeWidth="2.5" fill="none" strokeDasharray="8 8" filter="url(#glow-line)" className="animate-[dash_30s_linear_infinite] opacity-80">
-                <style>{`
-                  @keyframes dash {
-                    to { stroke-dashoffset: -1000; }
-                  }
-                `}</style>
+              <g stroke="url(#lineGrad)" strokeWidth="2.5" fill="none" strokeDasharray="8 8" filter="url(#glow-line)" className="animate-dash-slow opacity-80">
                 <path d="M 120,150 C 250,150 250,300 300,300" />
                 <path d="M 480,150 C 350,150 350,300 300,300" />
                 <path d="M 120,450 C 250,450 250,300 300,300" />

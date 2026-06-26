@@ -70,13 +70,11 @@ export const Workflow = () => {
               {/* Paths */}
               <g fill="none" strokeWidth="3" filter="url(#glow)" className="opacity-70 group-hover/canvas:opacity-100 transition-opacity duration-700">
                 {/* Webhook -> AI */}
-                <path d="M 180 200 C 250 200, 300 150, 400 150" stroke="url(#flowGrad1)" strokeDasharray="8 8" className="animate-[dash_20s_linear_infinite]">
-                  <style>{`@keyframes dash { to { stroke-dashoffset: -500; } }`}</style>
-                </path>
+                <path d="M 180 200 C 250 200, 300 150, 400 150" stroke="url(#flowGrad1)" strokeDasharray="8 8" className="animate-dash-fast" />
                 {/* AI -> CRM */}
-                <path d="M 600 150 C 700 150, 750 100, 800 100" stroke="url(#flowGrad2)" strokeDasharray="8 8" className="animate-[dash_20s_linear_infinite]" />
+                <path d="M 600 150 C 700 150, 750 100, 800 100" stroke="url(#flowGrad2)" strokeDasharray="8 8" className="animate-dash-fast" />
                 {/* AI -> Slack */}
-                <path d="M 600 150 C 700 150, 750 300, 800 300" stroke="url(#flowGrad2)" strokeDasharray="8 8" className="animate-[dash_20s_linear_infinite]" />
+                <path d="M 600 150 C 700 150, 750 300, 800 300" stroke="url(#flowGrad2)" strokeDasharray="8 8" className="animate-dash-fast" />
               </g>
             </svg>
 
